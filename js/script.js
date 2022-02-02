@@ -119,3 +119,9 @@ document.getElementById('load-quote').addEventListener("click", printQuote, fals
  * load a random quote on load
 ***/
 printQuote();
+
+/***
+ * generate a random quote after every 30 seconds
+***/
+
+let qGenerator = setInterval(printQuote, 30000)
