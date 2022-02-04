@@ -1,11 +1,4 @@
-/******************************************
-Treehouse FSJS Techdegree:
-project 1 - A Random Quote Generator
-******************************************/
 
-// For assistance:
-  // Check the "Project Resources" section of the project instructions
-  // Reach out in your Slack community - https://treehouse-fsjs-102.slack.com/app_redirect?channel=chit-chat
 
 /***
  * `quotes` array
@@ -27,7 +20,6 @@ let quotes = [
     quote: "Real programmers don't comment their code. If it was hard to write, it should be hard to understand.",
     source: 'unknown',
     citation: 'devglan.com',
-    year: null,
   },
   {
     quote: "Bad programmers worry about the code. Good programmers worry about data structures and their relationships.",
@@ -46,7 +38,6 @@ let quotes = [
     quote: 'The function of a good software is to make the complex appear to be simple.',
     source: 'Grady Booch',
     citation: 'devglan.com',
-    year: 2003,
     tag: "#software"
   },
   {
@@ -56,14 +47,13 @@ let quotes = [
     year: 2016,
   }
 ];
-let colors = ['#023e8a', '#4d908e', '#ca6702', '#2d6a4f', '#EC7063', '#AF7AC5', '#5DADE2', '#48C9B0', '#58D68D', '#F7DC6F', '#F8C471', '#F0B27A', '#E59866', '#3498DB', '#1ABC9C', '#D35400'];
 
 /***
  * `getRandomNumber` function
 ***/
 
-function getRandomNumber(array) {
-  var numb = Math.floor(Math.random() * array.length);
+function getRandomNumber(numb) {
+  var numb = Math.floor(Math.random() * numb);
   return numb;
 }
 
@@ -71,7 +61,7 @@ function getRandomNumber(array) {
  * `getRandomQuote` function
 ***/
 function getRandomQuote(array){
-  var index = getRandomNumber(array);
+  var index = getRandomNumber(array.length);
   return quotes[index];
 }
 
@@ -82,15 +72,15 @@ function getRandomQuote(array){
 function printQuote(){
   let qObj = getRandomQuote(quotes);
   let htmlString = `<p class="quote">${qObj.quote}</p>
-      <p class="source">${qObj.source}`;
+                    <p class="source">${qObj.source}`;
 
-    if (qObj.citation != undefined) {
+    if (qObj.hasOwnProperty('citation')) {
       htmlString += `<span class="citation"> ${qObj.citation}</span>`;
     }
-    if (qObj.year != undefined || qObj.year != null) {
+    if ('year' in qObj) {
       htmlString += `<span class="year"> ${qObj.year}</span>`;
     }
-    if (qObj.tag != undefined) {
+    if (qObj.tag) {
       htmlString += `<span class="tag"> ${qObj.tag}</span></p>`;
     }
     htmlString += `</p>`;
@@ -104,8 +94,12 @@ function printQuote(){
 ***/
 
 function randomColor() {
-  var index = getRandomNumber(colors);
-  return colors[index];
+  // rgb values set to give colors that contrast with white color font
+  // rgd red value = 0 to 100, to infuse dark colors in the mix
+  // rgb green value = 50 to 100, to infuse medium shade colors in the mix;
+  // rgb blue value = 50 and 155 to infuse colors with more white in the mix;
+  var rgb = `rgb(${getRandomNumber(101)}, ${getRandomNumber(101) + 50}, ${getRandomNumber(156) + 100}`;
+  return rgb;
 }
 
 /***
@@ -116,12 +110,12 @@ function randomColor() {
 document.getElementById('load-quote').addEventListener("click", printQuote, false);
 
 /***
- * load a random quote on load
+ * loads a random quote on page load
 ***/
 printQuote();
 
 /***
- * generate a random quote after every 30 seconds
+ * generates a random quote after every 30 second loop
 ***/
 
-let qGenerator = setInterval(printQuote, 30000)
+let qGenerator = setInterval(printQuote, 30000);
